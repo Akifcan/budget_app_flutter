@@ -7,6 +7,10 @@ class NavigationService {
     navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => view));
   }
 
+  static pop() {
+    navigatorKey.currentState!.pop();
+  }
+
   static pushReplacement(Widget view) {
     navigatorKey.currentState!
         .pushReplacement(MaterialPageRoute(builder: (_) => view));

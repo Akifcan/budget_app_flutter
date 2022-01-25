@@ -35,6 +35,12 @@ class Header extends StatelessWidget {
                   .subtitle1!
                   .copyWith(color: Colors.white)),
           const SizedBox(height: 10),
+          Text("Gelir: 1000₺",
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1!
+                  .copyWith(color: Colors.white)),
+          const SizedBox(height: 10),
           TextButton.icon(
               onPressed: () {},
               icon: const Icon(FontAwesomeIcons.pen, color: Colors.white),

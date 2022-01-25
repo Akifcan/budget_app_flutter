@@ -15,7 +15,7 @@ class AddLanding extends StatelessWidget {
       body: Column(
         children: [
           NewRecordCard(
-              onTap: () => NavigationService.push(const NewCategory()),
+              onTap: () => NavigationService.push(NewCategory()),
               icon: 'plus',
               title: "Yeni Kategori",
               description: "Yeni Kategori Kaydı Oluşturun"),
