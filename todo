@@ -1,5 +1,5 @@
 pages [ x ]
 list categories [ x ]
-add new category [  ]
-active category [  ]
+add new category [ x ]
+active category [ x ]
 add amount for every month [  ]

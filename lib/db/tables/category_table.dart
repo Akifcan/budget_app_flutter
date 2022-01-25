@@ -25,8 +25,9 @@ class CategoryTable {
 
   Future<bool> activeCategory(int categoryId, double amount) async {
     final db = await DatabaseProvider.instance.database();
-    await db
-        .rawQuery('UPDATE $categoryTableName SET active=1, amount=?', [amount]);
+    await db.rawQuery(
+        'UPDATE $categoryTableName SET active=1, amount=?, where id=?',
+        [amount, categoryId]);
     return true;
   }
 

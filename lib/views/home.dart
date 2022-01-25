@@ -17,10 +17,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   list() async {
     final db = await DatabaseProvider.instance.database();
-    final List<Map<String, dynamic>> maps =
+    final List<Map<String, dynamic>> categoryMaps =
         await db.rawQuery('select * from categories');
+    final List<Map<String, dynamic>> amountMaps =
+        await db.rawQuery('select * from amountsPerMonth');
     // ignore: avoid_print
-    print(maps);
+    print(categoryMaps);
+    // ignore: avoid_print
+    print(amountMaps);
   }
 
   @override

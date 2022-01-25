@@ -1,3 +1,5 @@
+import 'package:budget/core/navigator_service.dart';
+import 'package:budget/views/add/add_amount.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -29,23 +31,18 @@ class Header extends StatelessWidget {
                 .copyWith(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 10),
-          Text("Harcanan: 1000₺",
+          Text("Belirlediğiniz Tutar: 1000₺",
               style: Theme.of(context)
                   .textTheme
                   .subtitle1!
                   .copyWith(color: Colors.white)),
           const SizedBox(height: 10),
-          Text("Gelir: 1000₺",
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1!
-                  .copyWith(color: Colors.white)),
           const SizedBox(height: 10),
           TextButton.icon(
-              onPressed: () {},
+              onPressed: () => NavigationService.push(const AddAmount()),
               icon: const Icon(FontAwesomeIcons.pen, color: Colors.white),
-              label:
-                  const Text("Düzenle", style: TextStyle(color: Colors.white)))
+              label: const Text("Düzenle / Görüntüle",
+                  style: TextStyle(color: Colors.white)))
         ],
       ),
       height: MediaQuery.of(context).size.height * .3,
