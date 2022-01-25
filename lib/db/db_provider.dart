@@ -9,20 +9,21 @@ class DatabaseProvider {
 
   database() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'budget2.db'),
+      join(await getDatabasesPath(), 'budget9.db'),
       onCreate: (db, version) async {
         await db.execute(
-            "CREATE TABLE categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, icon TEXT, active INTEGER);");
+            "CREATE TABLE categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, icon TEXT default 'default.png', active INTEGER, amount INTEGER default 0);");
         await db.execute(
-            "insert into categories VALUES(1, 'sport', 'sport.png', 0);");
-        await db
-            .execute("insert into categories VALUES(2, 'car', 'car.png', 0);");
+            "insert into categories (name, icon, active) VALUES('sport', 'sport.png', 0);");
         await db.execute(
-            "insert into categories VALUES(3, 'fun', 'confetti.png', 0);");
+            "insert into categories (name, icon, active) VALUES('car', 'car.png', 0);");
         await db.execute(
-            "insert into categories VALUES(4, 'food', 'diet.png', 0);");
+            "insert into categories (name, icon, active) VALUES('fun', 'confetti.png', 0);");
         await db.execute(
-            "insert into categories VALUES(5, 'house', 'home.png', 0);");
+            "insert into categories (name, icon, active) VALUES('food', 'diet.png', 0);");
+        await db.execute(
+            "insert into categories (name, icon, active) VALUES('house', 'house.png', 0);");
+        // ignore: avoid_print
         print("ok!");
       },
       version: 1,

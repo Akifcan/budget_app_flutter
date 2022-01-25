@@ -15,12 +15,19 @@ class CategoryTable {
     return maps.isNotEmpty ? true : false;
   }
 
-  addNewCategory(String categoryName) async {
+  Future<bool> addNewCategory(String categoryName, double amount) async {
     final db = await DatabaseProvider.instance.database();
-    final List<Map<String, dynamic>> maps = await db.rawQuery(
-        'insert into categories (name, icon, active) values (?, ?, ?)',
-        [categoryName, 'default.png', 1]);
-    print(maps);
+    await db.rawQuery(
+        'insert into $categoryTableName (name, active, amount) values (?, ?, ?)',
+        [categoryName, 1, amount]);
+    return true;
+  }
+
+  Future<bool> activeCategory(int categoryId, double amount) async {
+    final db = await DatabaseProvider.instance.database();
+    await db
+        .rawQuery('UPDATE $categoryTableName SET active=1, amount=?', [amount]);
+    return true;
   }
 
   Future<List<Category>> getCategories(int active) async {

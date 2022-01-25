@@ -18,7 +18,8 @@ class _HomeState extends State<Home> {
   list() async {
     final db = await DatabaseProvider.instance.database();
     final List<Map<String, dynamic>> maps =
-        await db.rawQuery('select * from categories where active=?', [1]);
+        await db.rawQuery('select * from categories');
+    // ignore: avoid_print
     print(maps);
   }
 
