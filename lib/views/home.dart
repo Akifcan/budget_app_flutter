@@ -1,12 +1,11 @@
+import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
-import 'package:budget/db/models/dog.dart';
 import 'package:budget/style.dart';
+import 'package:budget/views/add/add_landing.dart';
 import 'package:budget/widgets/category_card.dart';
 import 'package:budget/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,28 +15,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Future<void> insertDog(Dog dog) async {
-    final db = await DatabaseProvider.instance.database();
-
-    await db.insert(
-      'dogs',
-      dog.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  Future<void> getAll() async {
-    final db = await DatabaseProvider.instance.database();
-    // final List<Map<String, dynamic>> maps =
-    //     await db.query('dogs', where: "id = ?", whereArgs: [5]);
-    final List<Map<String, dynamic>> maps = await db.query('categories');
-    print(maps);
-  }
-
   @override
   void initState() {
     super.initState();
-    getAll();
   }
 
   @override
@@ -47,7 +27,7 @@ class _HomeState extends State<Home> {
         floatingActionButton: FloatingActionButton(
           tooltip: 'Yeni Ekleme Yapın',
           backgroundColor: primaryColor,
-          onPressed: () {},
+          onPressed: () => NavigationService.push(const AddLanding()),
           child: const Icon(FontAwesomeIcons.wallet),
         ),
         body: Column(

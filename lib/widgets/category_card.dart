@@ -1,8 +1,8 @@
+import 'package:budget/widgets/icon_container.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({Key? key}) : super(key: key);
-  final double imageContainerWidth = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +16,7 @@ class CategoryCard extends StatelessWidget {
           spacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.all(7),
-              margin: const EdgeInsets.only(top: 5),
-              width: imageContainerWidth,
-              height: imageContainerWidth,
-              child:
-                  Image.asset('assets/icons/confetti.png', fit: BoxFit.contain),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(12)),
-            ),
+            const IconContainer(iconName: 'confetti'),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
