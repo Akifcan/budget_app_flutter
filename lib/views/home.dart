@@ -1,5 +1,6 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
+import 'package:budget/db/tables/amout_table.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/add/add_landing.dart';
 import 'package:budget/widgets/category_card.dart';
@@ -21,10 +22,7 @@ class _HomeState extends State<Home> {
         await db.rawQuery('select * from categories');
     final List<Map<String, dynamic>> amountMaps =
         await db.rawQuery('select * from amountsPerMonth');
-    // ignore: avoid_print
-    print(categoryMaps);
-    // ignore: avoid_print
-    print(amountMaps);
+    print(await AmountTable.instance.headerInformations());
   }
 
   @override
