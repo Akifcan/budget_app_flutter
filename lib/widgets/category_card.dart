@@ -9,7 +9,7 @@ class CategoryCard extends StatelessWidget {
     return Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(12),
-      color: Colors.white,
+      color: const Color(0xffEbf6f7),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Wrap(

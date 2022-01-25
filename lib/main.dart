@@ -1,3 +1,4 @@
+import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/home.dart';
@@ -15,6 +16,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', theme: theme, home: const Home());
+    return MaterialApp(
+        navigatorKey: NavigationService.navigatorKey,
+        title: 'Flutter Demo',
+        theme: theme,
+        home: const Home());
   }
 }
