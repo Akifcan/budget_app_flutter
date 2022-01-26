@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
 import 'package:budget/db/models/category.dart';
 import 'package:budget/form/validations.dart';
 import 'package:budget/style.dart';
 import 'package:budget/widgets/budget_card.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoryDetail extends StatefulWidget {
   final Category category;

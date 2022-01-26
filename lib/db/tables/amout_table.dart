@@ -19,6 +19,15 @@ class AmountTable {
     return HeaderInformations(amount: amount.amount);
   }
 
+  Future<bool> isAmountExists() async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> amountIsExists = await db.rawQuery(
+        'SELECT * FROM $amountTableName where month=? and year=?',
+        [date.month, date.year]);
+    return amountIsExists.isNotEmpty ? true : false;
+  }
+
   Future<bool> addNewAmount(double amount) async {
     final db = await DatabaseProvider.instance.database();
     final date = DateTime.now();
