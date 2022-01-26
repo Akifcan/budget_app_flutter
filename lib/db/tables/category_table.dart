@@ -26,7 +26,7 @@ class CategoryTable {
   Future<bool> activeCategory(int categoryId, double amount) async {
     final db = await DatabaseProvider.instance.database();
     await db.rawQuery(
-        'UPDATE $categoryTableName SET active=1, amount=?, where id=?',
+        'UPDATE $categoryTableName SET active=1, amount=? WHERE id=?',
         [amount, categoryId]);
     return true;
   }
@@ -35,7 +35,7 @@ class CategoryTable {
     List<Category> categories = [];
     final db = await DatabaseProvider.instance.database();
     final List<Map<String, dynamic>> maps = await db
-        .rawQuery('select * from $categoryTableName where active=?', [0]);
+        .rawQuery('select * from $categoryTableName where active=?', [active]);
     categories = maps.map((category) => Category.fromJson(category)).toList();
     return categories;
   }

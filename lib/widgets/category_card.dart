@@ -1,8 +1,10 @@
+import 'package:budget/db/models/category.dart';
 import 'package:budget/widgets/icon_container.dart';
 import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
-  const CategoryCard({Key? key}) : super(key: key);
+  final Category category;
+  const CategoryCard({Key? key, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +18,12 @@ class CategoryCard extends StatelessWidget {
           spacing: 10,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            const IconContainer(iconName: 'confetti'),
+            IconContainer(iconName: category.icon.replaceAll('.png', '')),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Kategori Adı",
+                Text(category.name,
                     style: Theme.of(context).textTheme.headline5!.copyWith(
                         color: const Color(0xff0F0E0E),
                         fontWeight: FontWeight.w600)),

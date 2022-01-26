@@ -1,10 +1,13 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
+import 'package:budget/db/models/category.dart';
 import 'package:budget/db/tables/amout_table.dart';
+import 'package:budget/db/tables/category_table.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/add/add_landing.dart';
 import 'package:budget/widgets/category_card.dart';
 import 'package:budget/widgets/header.dart';
+import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -22,6 +25,7 @@ class _HomeState extends State<Home> {
         await db.rawQuery('select * from categories');
     final List<Map<String, dynamic>> amountMaps =
         await db.rawQuery('select * from amountsPerMonth');
+    print(categoryMaps);
     print(await AmountTable.instance.headerInformations());
   }
 
@@ -47,10 +51,19 @@ class _HomeState extends State<Home> {
             Expanded(
               child: Padding(
                   padding: const EdgeInsets.all(28.0),
-                  child: ListView.separated(
-                    itemCount: 15,
-                    separatorBuilder: (_, __) => const SizedBox(height: 10),
-                    itemBuilder: (_, __) => const CategoryCard(),
+                  child: FutureBuilder<List<Category>>(
+                    future: CategoryTable.instance.getCategories(1),
+                    builder: (_, AsyncSnapshot snapshot) {
+                      return snapshot.hasData
+                          ? ListView.separated(
+                              itemCount: snapshot.data.length,
+                              separatorBuilder: (_, __) =>
+                                  const SizedBox(height: 10),
+                              itemBuilder: (_, index) =>
+                                  CategoryCard(category: snapshot.data[index]),
+                            )
+                          : const Loader();
+                    },
                   )),
             )
           ],
