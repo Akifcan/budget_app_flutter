@@ -1,3 +1,4 @@
+import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/models/category.dart';
 import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/wallet_table.dart';
@@ -24,7 +25,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
   late num amount;
 
   walletByCategory() async {
-    await WalletTable.instance.walletByCategory(widget.category.id);
+    print(await WalletTable.instance.walletByCategory(widget.category.id));
   }
 
   @override
@@ -47,6 +48,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
       setState(() {
         isLoading = false;
       });
+      NavigationService.pop();
     }
   }
 
