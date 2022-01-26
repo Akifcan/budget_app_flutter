@@ -4,6 +4,7 @@ import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/form/validations.dart';
 import 'package:budget/style.dart';
+import 'package:budget/widgets/alert.dart';
 import 'package:budget/widgets/budget_card.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
@@ -132,11 +133,26 @@ class _CategoryDetailState extends State<CategoryDetail> {
         child: const Icon(Icons.monetization_on),
       ),
       body: !isLoading
-          ? Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Row(
+          ? Column(
+              children: [
+                FutureBuilder<num>(
+                  future: WalletTable.instance
+                      .showTotalExpenseByCategory(widget.category.id),
+                  builder: (_, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return snapshot.data > widget.category.amount
+                          ? Alert(
+                              background: Colors.red[800]!,
+                              label:
+                                  'Belirlediğiniz harcama limitini geçtiniz (${snapshot.data - widget.category.amount}₺ fark.)')
+                          : const SizedBox.shrink();
+                    }
+                    return const Loader();
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
                     children: [
                       FutureBuilder<num>(
                         future: WalletTable.instance
@@ -147,7 +163,10 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                   title: 'Harcadığınız Tutar',
                                   amount: snapshot.data,
                                   backgroundColor: Colors.white,
-                                  textColor: Colors.black87,
+                                  textColor:
+                                      snapshot.data < widget.category.amount
+                                          ? Colors.black87
+                                          : Colors.red,
                                 )
                               : const Loader();
                         },
@@ -161,35 +180,35 @@ class _CategoryDetailState extends State<CategoryDetail> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: FutureBuilder<List<Wallet>>(
-                      future: WalletTable.instance
-                          .walletByCategory(widget.category.id),
-                      builder: (_, AsyncSnapshot snapshot) {
-                        return snapshot.hasData
-                            ? ListView.builder(
-                                itemCount: snapshot.data.length,
-                                itemBuilder: (_, index) {
-                                  Wallet wallet = snapshot.data[index];
-                                  return ListTile(
-                                    title: Text(wallet.description),
-                                    subtitle: Text(wallet.type == 'expense'
-                                        ? 'Harcama Yaptınız'
-                                        : 'Kazandınız'),
-                                    trailing: Text("${wallet.amount}₺",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 20)),
-                                  );
-                                },
-                              )
-                            : const Loader();
-                      },
-                    ),
-                  )
-                ],
-              ),
+                ),
+                const SizedBox(height: 20),
+                Expanded(
+                  child: FutureBuilder<List<Wallet>>(
+                    future: WalletTable.instance
+                        .walletByCategory(widget.category.id),
+                    builder: (_, AsyncSnapshot snapshot) {
+                      return snapshot.hasData
+                          ? ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (_, index) {
+                                Wallet wallet = snapshot.data[index];
+                                return ListTile(
+                                  title: Text(wallet.description),
+                                  subtitle: Text(wallet.type == 'expense'
+                                      ? 'Harcama Yaptınız'
+                                      : 'Kazandınız'),
+                                  trailing: Text("${wallet.amount}₺",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: 20)),
+                                );
+                              },
+                            )
+                          : const Loader();
+                    },
+                  ),
+                )
+              ],
             )
           : const Loader(),
     );
