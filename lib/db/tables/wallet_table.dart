@@ -17,11 +17,20 @@ class WalletTable {
     return wallets;
   }
 
+  Future<num> showTotalExpenseByCategory(int categoryId) async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+        "SELECT SUM(amount) from $walletTableName where month=? and year=? and categoryId=? and type = 'expense' ",
+        [date.month, date.year, categoryId]);
+    return maps[0]['SUM(amount)'] ?? 0;
+  }
+
   Future<bool> addWallet(WalletDto wallet) async {
     final db = await DatabaseProvider.instance.database();
     final date = DateTime.now();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-        'INSERT INTO wallet (categoryId, description, type, month, day, year, amount) VALUES(?, ?, ?, ?, ?, ?, ?)',
+        'INSERT INTO $walletTableName (categoryId, description, type, month, day, year, amount) VALUES(?, ?, ?, ?, ?, ?, ?)',
         [
           wallet.categoryId,
           wallet.description,

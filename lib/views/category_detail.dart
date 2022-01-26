@@ -24,16 +24,6 @@ class _CategoryDetailState extends State<CategoryDetail> {
   late String description;
   late num amount;
 
-  walletByCategory() async {
-    print(await WalletTable.instance.walletByCategory(widget.category.id));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    walletByCategory();
-  }
-
   createExpense() async {
     if (newExpenseFormKey.currentState!.validate()) {
       newExpenseFormKey.currentState!.save();
@@ -130,6 +120,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
 
   @override
   Widget build(BuildContext context) {
+    print(WalletTable.instance.showTotalExpenseByCategory(widget.category.id));
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category.name),
@@ -147,11 +138,19 @@ class _CategoryDetailState extends State<CategoryDetail> {
                 children: [
                   Row(
                     children: [
-                      const BudgetCard(
-                        title: 'Harcadığınız Tutar',
-                        amount: 0,
-                        backgroundColor: Colors.white,
-                        textColor: Colors.black87,
+                      FutureBuilder<num>(
+                        future: WalletTable.instance
+                            .showTotalExpenseByCategory(widget.category.id),
+                        builder: (_, AsyncSnapshot snapshot) {
+                          return snapshot.hasData
+                              ? BudgetCard(
+                                  title: 'Harcadığınız Tutar',
+                                  amount: snapshot.data,
+                                  backgroundColor: Colors.white,
+                                  textColor: Colors.black87,
+                                )
+                              : const Loader();
+                        },
                       ),
                       const SizedBox(width: 15),
                       BudgetCard(
@@ -163,6 +162,32 @@ class _CategoryDetailState extends State<CategoryDetail> {
                     ],
                   ),
                   const SizedBox(height: 20),
+                  Expanded(
+                    child: FutureBuilder<List<Wallet>>(
+                      future: WalletTable.instance
+                          .walletByCategory(widget.category.id),
+                      builder: (_, AsyncSnapshot snapshot) {
+                        return snapshot.hasData
+                            ? ListView.builder(
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (_, index) {
+                                  Wallet wallet = snapshot.data[index];
+                                  return ListTile(
+                                    title: Text(wallet.description),
+                                    subtitle: Text(wallet.type == 'expense'
+                                        ? 'Harcama Yaptınız'
+                                        : 'Kazandınız'),
+                                    trailing: Text("${wallet.amount}₺",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 20)),
+                                  );
+                                },
+                              )
+                            : const Loader();
+                      },
+                    ),
+                  )
                 ],
               ),
             )
