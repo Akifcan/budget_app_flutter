@@ -1,7 +1,9 @@
 import 'package:budget/db/models/category.dart';
+import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/form/validations.dart';
 import 'package:budget/style.dart';
 import 'package:budget/widgets/budget_card.dart';
+import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
 class CategoryDetail extends StatefulWidget {
@@ -14,14 +16,32 @@ class CategoryDetail extends StatefulWidget {
 
 class _CategoryDetailState extends State<CategoryDetail> {
   final newExpenseFormKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   String expenseType = 'income';
   late String description;
   late num amount;
 
-  createExpense() {
+  walletByCategory() async {
+    await WalletTable.instance.walletByCategory(widget.category.id);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    walletByCategory();
+  }
+
+  createExpense() async {
     if (newExpenseFormKey.currentState!.validate()) {
       newExpenseFormKey.currentState!.save();
+      setState(() {
+        isLoading = true;
+      });
+
+      setState(() {
+        isLoading = false;
+      });
       print(description);
       print(amount);
       print(expenseType);
@@ -116,31 +136,33 @@ class _CategoryDetailState extends State<CategoryDetail> {
         onPressed: newExpense,
         child: const Icon(Icons.monetization_on),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const BudgetCard(
-                  title: 'Harcadığınız Tutar',
-                  amount: 0,
-                  backgroundColor: Colors.white,
-                  textColor: Colors.black87,
-                ),
-                const SizedBox(width: 15),
-                BudgetCard(
-                  title: 'Belirlediğiniz Tutar',
-                  amount: widget.category.amount,
-                  backgroundColor: Colors.green,
-                  textColor: Colors.white,
-                )
-              ],
-            ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+      body: !isLoading
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const BudgetCard(
+                        title: 'Harcadığınız Tutar',
+                        amount: 0,
+                        backgroundColor: Colors.white,
+                        textColor: Colors.black87,
+                      ),
+                      const SizedBox(width: 15),
+                      BudgetCard(
+                        title: 'Belirlediğiniz Tutar',
+                        amount: widget.category.amount,
+                        backgroundColor: Colors.green,
+                        textColor: Colors.white,
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            )
+          : const Loader(),
     );
   }
 }

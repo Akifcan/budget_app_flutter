@@ -1,8 +1,6 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
 import 'package:budget/style.dart';
-import 'package:budget/views/add/add_amount.dart';
-import 'package:budget/views/home.dart';
 import 'package:budget/views/splash.dart';
 import 'package:flutter/material.dart';
 
