@@ -16,7 +16,7 @@ class AmountTable {
         'select * from amountsPerMonth where month=? and year=?',
         [date.month, date.year]);
     Amount amount = Amount.fromJson(amountMaps[0]);
-    return HeaderInformations(amount: amount.amount);
+    return HeaderInformations(amount: amount.amount, current: amount.current);
   }
 
   Future<bool> isAmountExists() async {
@@ -39,13 +39,13 @@ class AmountTable {
       // ignore: avoid_print
       print("NEW RECORD ADDED!");
       await db.rawQuery(
-          'INSERT INTO $amountTableName (month, day, year, amount) VALUES(?, ?, ?, ?)',
-          [date.month, date.day, date.year, amount]);
+          'INSERT INTO $amountTableName (month, day, year, amount, current) VALUES(?, ?, ?, ?, ?)',
+          [date.month, date.day, date.year, amount, amount]);
     } else {
       // ignore: avoid_print
       print("UPDATE RECORD!");
       await db.rawQuery(
-          'UPDATE $amountTableName SET amount=? where month=? and year=?',
+          'UPDATE $amountTableName SET current=? where month=? and year=?',
           [amount, date.month, date.year]);
     }
     return true;

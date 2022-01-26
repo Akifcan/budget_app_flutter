@@ -29,12 +29,12 @@ class Header extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "2500₺",
+                      "${snapshot.data.amount}₺",
                       style: Theme.of(context).textTheme.headline5!.copyWith(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 10),
-                    Text("Belirlediğiniz Tutar: ${snapshot.data.amount!}₺",
+                    Text("Belirlediğiniz Tutar: ${snapshot.data.current!}₺",
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1!

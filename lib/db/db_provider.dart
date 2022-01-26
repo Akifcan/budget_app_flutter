@@ -9,12 +9,12 @@ class DatabaseProvider {
 
   database() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'budget18.db'),
+      join(await getDatabasesPath(), 'budget19.db'),
       onCreate: (db, version) async {
         await db.execute(
             "CREATE TABLE categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, icon TEXT default 'default.png', active INTEGER, amount INTEGER default 0);");
         await db.execute(
-            'CREATE TABLE amountsPerMonth (id INTEGER PRIMARY KEY AUTOINCREMENT, month INTEGER NOT NULL, day INTEGER NOT NULL, year INTEGER NOT NULL, amount INTEGER NOT NULL);');
+            'CREATE TABLE amountsPerMonth (id INTEGER PRIMARY KEY AUTOINCREMENT, month INTEGER NOT NULL, day INTEGER NOT NULL, year INTEGER NOT NULL, amount INTEGER NOT NULL, current INTEGER NOT NULL);');
         await db.execute(
             'CREATE TABLE wallet (id INTEGER PRIMARY KEY AUTOINCREMENT, categoryId INTEGER NOT NULL, description TEXT NOT NULL, amount INTEGER NOT NULL, type TEXT NOT NULL, month INTEGER NOT NULL, day INTEGER NOT NULL, year INTEGER NOT NULL, FOREIGN KEY(categoryId) REFERENCES categories(id));');
         await db.execute(

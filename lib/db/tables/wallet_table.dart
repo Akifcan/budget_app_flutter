@@ -29,7 +29,7 @@ class WalletTable {
   Future<bool> addWallet(WalletDto wallet) async {
     final db = await DatabaseProvider.instance.database();
     final date = DateTime.now();
-    final List<Map<String, dynamic>> maps = await db.rawQuery(
+    await db.rawQuery(
         'INSERT INTO $walletTableName (categoryId, description, type, month, day, year, amount) VALUES(?, ?, ?, ?, ?, ?, ?)',
         [
           wallet.categoryId,
