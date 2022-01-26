@@ -9,7 +9,7 @@ class DatabaseProvider {
 
   database() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'budget17.db'),
+      join(await getDatabasesPath(), 'budget18.db'),
       onCreate: (db, version) async {
         await db.execute(
             "CREATE TABLE categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, icon TEXT default 'default.png', active INTEGER, amount INTEGER default 0);");

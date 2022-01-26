@@ -1,4 +1,5 @@
 import 'package:budget/db/models/category.dart';
+import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/form/validations.dart';
 import 'package:budget/style.dart';
@@ -18,7 +19,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
   final newExpenseFormKey = GlobalKey<FormState>();
   bool isLoading = false;
 
-  String expenseType = 'income';
+  String expenseType = 'expense';
   late String description;
   late num amount;
 
@@ -38,13 +39,14 @@ class _CategoryDetailState extends State<CategoryDetail> {
       setState(() {
         isLoading = true;
       });
-
+      await WalletTable.instance.addWallet(WalletDto(
+          categoryId: widget.category.id,
+          amount: amount,
+          type: expenseType,
+          description: description));
       setState(() {
         isLoading = false;
       });
-      print(description);
-      print(amount);
-      print(expenseType);
     }
   }
 
@@ -86,7 +88,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                             children: [
                               RadioListTile(
                                 groupValue: expenseType,
-                                value: "expense",
+                                value: "income",
                                 onChanged: (val) {
                                   setState(() {
                                     expenseType = val.toString();
@@ -97,7 +99,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                               ),
                               RadioListTile(
                                 groupValue: expenseType,
-                                value: "income",
+                                value: "expense",
                                 onChanged: (val) {
                                   setState(() {
                                     expenseType = val.toString();
