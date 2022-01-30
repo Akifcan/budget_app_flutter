@@ -1,5 +1,6 @@
 import 'package:budget/db/models/category.dart';
 import 'package:budget/db/tables/category_table.dart';
+import 'package:budget/form/validations.dart';
 import 'package:budget/helpers/helpers.dart';
 import 'package:budget/style.dart';
 import 'package:budget/widgets/icon_container.dart';
@@ -135,13 +136,7 @@ class _NewCategoryState extends State<NewCategory> {
                     onSaved: (val) =>
                         setState(() => amount = double.parse(val!)),
                     validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Lütfen bu alanı boş bırakmayın';
-                      }
-                      if (double.parse(val) < 0) {
-                        return "Lütfen 0'ın üstünde bir değer girin";
-                      }
-                      return null;
+                      return amountValidation(val!);
                     },
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(

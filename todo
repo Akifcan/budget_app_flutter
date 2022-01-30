@@ -10,8 +10,9 @@ show budget [ x ]
 alert box [ x ]
 update monthly amount [ x ]
 
-provider integration [  ]
+provider integration [ x ]
 budget control [  ]
-edit amount [  ]
+edit wallet [  ]
+delete wallet [  ]
 active/deactive categories [  ]
 

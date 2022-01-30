@@ -60,4 +60,13 @@ class AmountTable {
     }
     return true;
   }
+
+  Future<num> currentAmount() async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> amount = await db.rawQuery(
+        'SELECT * FROM $amountTableName where month=? and year=?',
+        [date.month, date.year]);
+    return amount[0]['current'];
+  }
 }

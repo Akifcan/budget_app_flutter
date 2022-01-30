@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 class HeaderProvider extends ChangeNotifier {
   late HeaderInformations headerInformations;
   late bool isLoading = true;
+  late bool isDanger = false;
 
   Future getHeaderInformations() async {
     isLoading = true;
@@ -17,6 +18,9 @@ class HeaderProvider extends ChangeNotifier {
     Amount amount = Amount.fromJson(amountMaps[0]);
     headerInformations =
         HeaderInformations(amount: amount.amount, current: amount.current);
+    if (headerInformations.amount < 0) {
+      isDanger = true;
+    }
     isLoading = false;
     notifyListeners();
   }

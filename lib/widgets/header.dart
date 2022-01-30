@@ -29,7 +29,8 @@ class Header extends StatelessWidget {
                   Text(
                     "${model.headerInformations.amount}₺",
                     style: Theme.of(context).textTheme.headline5!.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: !model.isDanger ? Colors.white : Colors.red[700],
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
                   Text(
