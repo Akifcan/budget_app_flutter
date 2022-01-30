@@ -1,8 +1,10 @@
+import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/models/category.dart';
 import 'package:budget/db/tables/category_table.dart';
 import 'package:budget/form/validations.dart';
 import 'package:budget/helpers/helpers.dart';
 import 'package:budget/style.dart';
+import 'package:budget/views/home.dart';
 import 'package:budget/widgets/icon_container.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +47,7 @@ class _NewCategoryState extends State<NewCategory> {
     }
     await CategoryTable.instance
         .activeCategory(categoryId, double.parse(amountController.text));
-    // TODO: redirect
+    NavigationService.pushReplacement(const Home());
   }
 
   void activeCategoryDialog(Category category) {

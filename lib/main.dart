@@ -1,5 +1,6 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
+import 'package:budget/db/provider/category_provider.dart';
 import 'package:budget/db/provider/header_provider.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/splash.dart';
@@ -10,6 +11,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => HeaderProvider()),
+      ChangeNotifierProvider(create: (_) => CategoryProvider()),
     ],
     child: const MyApp(),
   ));

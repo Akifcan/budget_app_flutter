@@ -12,7 +12,7 @@ update monthly amount [ x ]
 
 provider integration [ x ]
 budget control [ x ]
-edit wallet [  ]
-delete wallet [  ]
+edit wallet [ x ]
+delete wallet [ x ]
 active/deactive categories [  ]
 

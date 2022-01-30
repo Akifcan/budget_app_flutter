@@ -31,11 +31,27 @@ class CategoryTable {
     return true;
   }
 
+  Future<bool> deActiveCategory(int categoryId) async {
+    final db = await DatabaseProvider.instance.database();
+    await db.rawQuery(
+        'UPDATE $categoryTableName SET active=0 WHERE id=?', [categoryId]);
+    return true;
+  }
+
   Future<List<Category>> getCategories(int active) async {
     List<Category> categories = [];
     final db = await DatabaseProvider.instance.database();
     final List<Map<String, dynamic>> maps = await db
         .rawQuery('select * from $categoryTableName where active=?', [active]);
+    categories = maps.map((category) => Category.fromJson(category)).toList();
+    return categories;
+  }
+
+  Future<List<Category>> getAllCategories() async {
+    List<Category> categories = [];
+    final db = await DatabaseProvider.instance.database();
+    final List<Map<String, dynamic>> maps =
+        await db.rawQuery('select * from $categoryTableName');
     categories = maps.map((category) => Category.fromJson(category)).toList();
     return categories;
   }

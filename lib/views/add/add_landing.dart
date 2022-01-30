@@ -1,5 +1,6 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/views/add/new_category.dart';
+import 'package:budget/views/category_list.dart';
 import 'package:budget/widgets/new_record_card.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class AddLanding extends StatelessWidget {
               description: "Yeni Kategori Kaydı Oluşturun"),
           const SizedBox(height: 10),
           NewRecordCard(
-              onTap: () {},
+              onTap: () => NavigationService.push(const CategoryList()),
               icon: 'menu',
               title: "Kategoriler",
               description: "Kategorilerinizi Yönetin"),
