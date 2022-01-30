@@ -14,5 +14,5 @@ provider integration [ x ]
 budget control [ x ]
 edit wallet [ x ]
 delete wallet [ x ]
-active/deactive categories [  ]
+active/deactive categories [ x ]
 

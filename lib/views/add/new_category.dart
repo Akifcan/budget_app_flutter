@@ -18,7 +18,6 @@ class NewCategory extends StatefulWidget {
 
 class _NewCategoryState extends State<NewCategory> {
   final newCategoryFormKey = GlobalKey<FormState>();
-  TextEditingController amountController = TextEditingController();
 
   late String categoryName;
   late double amount;
@@ -36,67 +35,9 @@ class _NewCategoryState extends State<NewCategory> {
     }
   }
 
-  void updateCategory(int categoryId) async {
-    if (amountController.text.isEmpty) {
-      showWarningDialog('Hata', "Lütfen bir miktar belirtin");
-      return;
-    }
-    if (double.parse(amountController.text) <= 0) {
-      showWarningDialog('Hata', "Lütfen girdiğiniz miktar 0'dan büyük olsun.");
-      return;
-    }
-    await CategoryTable.instance
-        .activeCategory(categoryId, double.parse(amountController.text));
+  void updateCategory(int categoryId, double amount) async {
+    await CategoryTable.instance.activeCategory(categoryId, amount);
     NavigationService.pushReplacement(const Home());
-  }
-
-  void activeCategoryDialog(Category category) {
-    showModalBottomSheet(
-        context: context,
-        builder: (_) => SizedBox(
-              height: MediaQuery.of(context).size.height * .7,
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RichText(
-                        text: TextSpan(
-                            style: const TextStyle(color: Colors.black),
-                            children: [
-                          TextSpan(
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
-                              text: category.name + '\t'),
-                          const TextSpan(text: 'Kategorisini ekliyorsunuz'),
-                        ])),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: amountController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                          labelText: 'Miktar',
-                          labelStyle: const TextStyle(color: primaryColor),
-                          suffixIcon: IconButton(
-                            tooltip: 'Ekleme İşlemini Tamamlayın',
-                            onPressed: () {},
-                            icon: const Icon(Icons.wallet_membership,
-                                color: primaryColor),
-                          )),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                          style:
-                              ElevatedButton.styleFrom(primary: primaryColor),
-                          onPressed: () => updateCategory(category.id),
-                          child: const Text("Kayıt Et")),
-                    )
-                  ],
-                ),
-              ),
-            ));
   }
 
   @override
@@ -184,7 +125,9 @@ class _NewCategoryState extends State<NewCategory> {
                           Category category = snapshot.data[index];
                           return ListTile(
                             onTap: () {
-                              activeCategoryDialog(category);
+                              activeCategoryDialog(category, (double amount) {
+                                updateCategory(category.id, amount);
+                              });
                             },
                             leading: IconContainer(
                                 iconName: category.icon.replaceAll('.png', '')),
