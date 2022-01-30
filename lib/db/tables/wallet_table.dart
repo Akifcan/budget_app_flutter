@@ -44,4 +44,13 @@ class WalletTable {
     await AmountTable.instance.updateAmount(wallet.type, wallet.amount);
     return true;
   }
+
+  Future<bool> updateWallet(
+      num walletId, String description, num amount) async {
+    final db = await DatabaseProvider.instance.database();
+    await db.rawQuery(
+        'UPDATE $walletTableName SET description=?, amount=? where id=?',
+        [description, amount, walletId]);
+    return true;
+  }
 }

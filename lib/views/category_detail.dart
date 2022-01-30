@@ -1,6 +1,7 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/models/category.dart';
 import 'package:budget/db/models/wallet.dart';
+import 'package:budget/db/tables/amout_table.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/form/validations.dart';
 import 'package:budget/style.dart';
@@ -19,6 +20,7 @@ class CategoryDetail extends StatefulWidget {
 
 class _CategoryDetailState extends State<CategoryDetail> {
   final newExpenseFormKey = GlobalKey<FormState>();
+  final editExpenseFormKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   String expenseType = 'expense';
@@ -41,6 +43,14 @@ class _CategoryDetailState extends State<CategoryDetail> {
       });
       NavigationService.pop();
     }
+  }
+
+  editExpense(
+      num walletId, String newDescription, num newAmount, num oldAmount) async {
+    await AmountTable.instance
+        .editExpense(walletId, newDescription, newAmount, oldAmount);
+    Navigator.of(context).pop();
+    setState(() {});
   }
 
   newExpense() {
@@ -85,7 +95,6 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                 onChanged: (val) {
                                   setState(() {
                                     expenseType = val.toString();
-                                    print(expenseType);
                                   });
                                 },
                                 title: const Text("Kazanç"),
@@ -119,9 +128,61 @@ class _CategoryDetailState extends State<CategoryDetail> {
             ));
   }
 
+  editDialog(Wallet wallet) {
+    TextEditingController descriptionController =
+        TextEditingController(text: wallet.description);
+    TextEditingController amountController =
+        TextEditingController(text: wallet.amount.toString());
+
+    showDialog(
+        context: context,
+        builder: (_) => Form(
+              key: editExpenseFormKey,
+              child: AlertDialog(
+                title: const Text("Harcama Bilgisini Düzenleyin"),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      controller: descriptionController,
+                      decoration:
+                          const InputDecoration(labelText: 'Açıklamanız'),
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      validator: (val) => amountValidation(val!),
+                      controller: amountController,
+                      decoration:
+                          const InputDecoration(labelText: 'Yeni Miktar'),
+                    ),
+                  ],
+                ),
+                actions: [
+                  ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(primary: Colors.red[900]),
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const Icon(Icons.arrow_left),
+                      label: const Text("Geri Dön")),
+                  ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(primary: primaryColor),
+                      onPressed: () {
+                        if (editExpenseFormKey.currentState!.validate()) {
+                          editExpense(
+                              wallet.id,
+                              descriptionController.text,
+                              double.parse(amountController.text),
+                              wallet.amount);
+                        }
+                      },
+                      icon: const Icon(Icons.done),
+                      label: const Text("Onayla")),
+                ],
+              ),
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(WalletTable.instance.showTotalExpenseByCategory(widget.category.id));
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.category.name),
@@ -193,6 +254,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
                               itemBuilder: (_, index) {
                                 Wallet wallet = snapshot.data[index];
                                 return ListTile(
+                                  onTap: () => editDialog(wallet),
                                   title: Text(wallet.description),
                                   subtitle: Text(wallet.type == 'expense'
                                       ? 'Harcama Yaptınız'

@@ -1,6 +1,9 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
+import 'package:budget/db/models/amount.dart';
+import 'package:budget/db/models/header_informations.dart';
 import 'package:budget/db/provider/header_provider.dart';
+import 'package:budget/db/tables/wallet_table.dart';
 // ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
@@ -68,5 +71,39 @@ class AmountTable {
         'SELECT * FROM $amountTableName where month=? and year=?',
         [date.month, date.year]);
     return amount[0]['current'];
+  }
+
+  Future<num> leftAmount() async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> amount = await db.rawQuery(
+        'SELECT * FROM $amountTableName where month=? and year=?',
+        [date.month, date.year]);
+    return amount[0]['amount'];
+  }
+
+  Future<HeaderInformations> headerInformations() async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> amountMaps = await db.rawQuery(
+        'select * from $amountTableName where month=? and year=?',
+        [date.month, date.year]);
+    Amount amount = Amount.fromJson(amountMaps[0]);
+    return HeaderInformations(amount: amount.amount, current: amount.current);
+  }
+
+  Future<bool> editExpense(
+      num walletId, String description, num newAmount, num oldAmount) async {
+    num amount = await leftAmount() - oldAmount;
+    final date = DateTime.now();
+    final db = await DatabaseProvider.instance.database();
+    await db.rawQuery(
+        'UPDATE $amountTableName SET amount=? where month=? and year=?',
+        [amount + newAmount, date.month, date.year]);
+    await WalletTable.instance.updateWallet(walletId, description, newAmount);
+    NavigationService.navigatorKey.currentContext!
+        .read<HeaderProvider>()
+        .getHeaderInformations();
+    return true;
   }
 }
