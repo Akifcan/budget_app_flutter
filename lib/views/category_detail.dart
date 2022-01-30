@@ -112,7 +112,6 @@ class _CategoryDetailState extends State<CategoryDetail> {
                                 onChanged: (val) {
                                   setState(() {
                                     expenseType = val.toString();
-                                    print(expenseType);
                                   });
                                 },
                                 title: const Text("Gider"),

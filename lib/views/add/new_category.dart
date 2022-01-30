@@ -27,7 +27,7 @@ class _NewCategoryState extends State<NewCategory> {
       newCategoryFormKey.currentState!.save();
       if (!await CategoryTable.instance.isCategoryExists(categoryName)) {
         await CategoryTable.instance.addNewCategory(categoryName, amount);
-        // TODO: redirect
+        NavigationService.pushReplacement(const Home());
       } else {
         showWarningDialog('Hata',
             'Bu kategori daha önceden oluşturulmuş isterseniz aktif edebilirsiniz');

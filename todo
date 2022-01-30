@@ -9,10 +9,11 @@ add expense [ x ]
 show budget [ x ]
 alert box [ x ]
 update monthly amount [ x ]
-
 provider integration [ x ]
 budget control [ x ]
 edit wallet [ x ]
 delete wallet [ x ]
 active/deactive categories [ x ]
+
+
 

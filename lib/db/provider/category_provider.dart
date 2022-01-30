@@ -3,7 +3,6 @@ import 'package:budget/db/models/category.dart';
 import 'package:budget/db/tables/category_table.dart';
 import 'package:budget/helpers/helpers.dart';
 import 'package:budget/style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
