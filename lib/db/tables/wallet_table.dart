@@ -53,4 +53,10 @@ class WalletTable {
         [description, amount, walletId]);
     return true;
   }
+
+  Future<bool> deleteWallet(num walletId) async {
+    final db = await DatabaseProvider.instance.database();
+    await db.rawQuery('DELETE FROM $walletTableName WHERE id = $walletId');
+    return true;
+  }
 }

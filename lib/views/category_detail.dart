@@ -9,6 +9,7 @@ import 'package:budget/widgets/alert.dart';
 import 'package:budget/widgets/budget_card.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CategoryDetail extends StatefulWidget {
   final Category category;
@@ -49,6 +50,12 @@ class _CategoryDetailState extends State<CategoryDetail> {
       num walletId, String newDescription, num newAmount, num oldAmount) async {
     await AmountTable.instance
         .editExpense(walletId, newDescription, newAmount, oldAmount);
+    Navigator.of(context).pop();
+    setState(() {});
+  }
+
+  deleteExpense(num walletId, num amount) async {
+    await AmountTable.instance.deleteExpense(walletId, amount);
     Navigator.of(context).pop();
     setState(() {});
   }
@@ -129,6 +136,8 @@ class _CategoryDetailState extends State<CategoryDetail> {
   }
 
   editDialog(Wallet wallet) {
+    num walletId = wallet.id;
+    num amount = wallet.amount;
     TextEditingController descriptionController =
         TextEditingController(text: wallet.description);
     TextEditingController amountController =
@@ -159,10 +168,28 @@ class _CategoryDetailState extends State<CategoryDetail> {
                 ),
                 actions: [
                   ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(primary: Colors.red[900]),
+                      style:
+                          ElevatedButton.styleFrom(primary: Colors.yellow[900]),
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(Icons.arrow_left),
                       label: const Text("Geri Dön")),
+                  ElevatedButton.icon(
+                      onPressed: () {
+                        Fluttertoast.showToast(
+                            msg: "Silmek İçin Lütfen Uzun Basın",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.red[900]),
+                      onLongPress: () {
+                        deleteExpense(walletId, amount);
+                      },
+                      icon: const Icon(Icons.delete_forever),
+                      label: const Text("Sil")),
                   ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(primary: primaryColor),
                       onPressed: () {

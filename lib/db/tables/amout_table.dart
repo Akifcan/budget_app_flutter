@@ -92,18 +92,30 @@ class AmountTable {
     return HeaderInformations(amount: amount.amount, current: amount.current);
   }
 
-  Future<bool> editExpense(
-      num walletId, String description, num newAmount, num oldAmount) async {
-    num amount = await leftAmount() - oldAmount;
+  Future<bool> editAmount(num amount) async {
     final date = DateTime.now();
     final db = await DatabaseProvider.instance.database();
     await db.rawQuery(
         'UPDATE $amountTableName SET amount=? where month=? and year=?',
-        [amount + newAmount, date.month, date.year]);
-    await WalletTable.instance.updateWallet(walletId, description, newAmount);
+        [amount, date.month, date.year]);
     NavigationService.navigatorKey.currentContext!
         .read<HeaderProvider>()
         .getHeaderInformations();
+    return true;
+  }
+
+  Future<bool> editExpense(
+      num walletId, String description, num newAmount, num oldAmount) async {
+    num amount = await leftAmount() - oldAmount;
+    await editAmount(amount + newAmount);
+    await WalletTable.instance.updateWallet(walletId, description, newAmount);
+    return true;
+  }
+
+  Future<bool> deleteExpense(num walletId, num newAmount) async {
+    num amount = await leftAmount() + newAmount;
+    await editAmount(amount);
+    await WalletTable.instance.deleteWallet(walletId);
     return true;
   }
 }
