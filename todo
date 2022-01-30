@@ -8,4 +8,10 @@ amount control [ x ]
 add expense [ x ]
 show budget [ x ]
 alert box [ x ]
-update monthly amount [  ]
+update monthly amount [ x ]
+
+provider integration [  ]
+budget control [  ]
+edit amount [  ]
+active/deactive categories [  ]
+

@@ -1,5 +1,6 @@
 import 'package:budget/db/db_provider.dart';
 import 'package:budget/db/models/wallet.dart';
+import 'package:budget/db/tables/amout_table.dart';
 
 class WalletTable {
   WalletTable._privateConstructor();
@@ -40,6 +41,7 @@ class WalletTable {
           date.year,
           wallet.amount
         ]);
+    await AmountTable.instance.updateAmount(wallet.type, wallet.amount);
     return true;
   }
 }

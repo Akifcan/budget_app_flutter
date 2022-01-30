@@ -19,6 +19,21 @@ class AmountTable {
     return HeaderInformations(amount: amount.amount, current: amount.current);
   }
 
+  Future<bool> updateAmount(String type, num amount) async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> currentAmountMaps = await db.rawQuery(
+        'SELECT * FROM $amountTableName where month=? and year=?',
+        [date.month, date.year]);
+    int currentAmount = currentAmountMaps[0]['amount'];
+    num newCurrentAmount =
+        type == 'expense' ? currentAmount - amount : currentAmount + amount;
+    await db.rawQuery(
+        'UPDATE $amountTableName SET amount=? where month=? and year=?',
+        [newCurrentAmount, date.month, date.year]);
+    return true;
+  }
+
   Future<bool> isAmountExists() async {
     final db = await DatabaseProvider.instance.database();
     final date = DateTime.now();

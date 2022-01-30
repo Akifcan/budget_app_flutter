@@ -1,11 +1,18 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
+import 'package:budget/db/provider/header_provider.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => HeaderProvider()),
+    ],
+    child: const MyApp(),
+  ));
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseProvider.instance.database();
 }
@@ -20,6 +27,6 @@ class MyApp extends StatelessWidget {
         navigatorKey: NavigationService.navigatorKey,
         title: 'Flutter Demo',
         theme: theme,
-        home: Splash());
+        home: const Splash());
   }
 }

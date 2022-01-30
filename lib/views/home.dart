@@ -1,6 +1,7 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
 import 'package:budget/db/models/category.dart';
+import 'package:budget/db/provider/header_provider.dart';
 import 'package:budget/db/tables/amout_table.dart';
 import 'package:budget/db/tables/category_table.dart';
 import 'package:budget/style.dart';
@@ -10,6 +11,7 @@ import 'package:budget/widgets/header.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/src/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -33,6 +35,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     list();
+    context.read<HeaderProvider>().getHeaderInformations();
   }
 
   @override

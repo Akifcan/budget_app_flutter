@@ -4,15 +4,16 @@ class NavigationService {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   static push(Widget view) {
-    navigatorKey.currentState!.push(MaterialPageRoute(builder: (_) => view));
+    return navigatorKey.currentState!
+        .push(MaterialPageRoute(builder: (_) => view));
   }
 
   static pop() {
-    navigatorKey.currentState!.pop();
+    return navigatorKey.currentState!.pop();
   }
 
   static pushReplacement(Widget view) {
-    navigatorKey.currentState!
+    return navigatorKey.currentState!
         .pushReplacement(MaterialPageRoute(builder: (_) => view));
   }
 }
