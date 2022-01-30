@@ -2,7 +2,6 @@ import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/db_provider.dart';
 import 'package:budget/db/models/category.dart';
 import 'package:budget/db/provider/header_provider.dart';
-import 'package:budget/db/tables/amout_table.dart';
 import 'package:budget/db/tables/category_table.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/add/add_landing.dart';
@@ -11,6 +10,7 @@ import 'package:budget/widgets/header.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
 class Home extends StatefulWidget {
@@ -28,7 +28,6 @@ class _HomeState extends State<Home> {
     final List<Map<String, dynamic>> amountMaps =
         await db.rawQuery('select * from amountsPerMonth');
     print(categoryMaps);
-    print(await AmountTable.instance.headerInformations());
   }
 
   @override

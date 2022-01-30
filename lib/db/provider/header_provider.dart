@@ -8,6 +8,7 @@ class HeaderProvider extends ChangeNotifier {
   late bool isLoading = true;
 
   Future getHeaderInformations() async {
+    isLoading = true;
     final db = await DatabaseProvider.instance.database();
     final date = DateTime.now();
     final List<Map<String, dynamic>> amountMaps = await db.rawQuery(
