@@ -106,8 +106,8 @@ class AmountTable {
 
   Future<bool> editExpense(
       num walletId, String description, num newAmount, num oldAmount) async {
-    num amount = await leftAmount() - oldAmount;
-    await editAmount(amount + newAmount);
+    num amount = await leftAmount() + oldAmount;
+    await editAmount(amount - newAmount);
     await WalletTable.instance.updateWallet(walletId, description, newAmount);
     return true;
   }
