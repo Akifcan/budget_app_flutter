@@ -1,6 +1,7 @@
 import 'package:budget/db/models/graphics/WalletSum.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/widgets/graphics/group_categories.dart';
+import 'package:budget/widgets/graphics/order_wallet.dart';
 import 'package:budget/widgets/graphics/pie_this_month.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,17 @@ class _GraphicsState extends State<Graphics> {
           children: const [
             PieThisMonth(),
             SizedBox(height: 20),
-            GroupCategories()
+            GroupCategories(),
+            SizedBox(height: 20),
+            OrderWallet(
+                title: 'En Yüksek Harcamalarınız',
+                type: 'expense',
+                order: 'desc'),
+            SizedBox(height: 20),
+            OrderWallet(
+                title: 'En Az Harcamalarınız', type: 'expense', order: 'ASC'),
+            SizedBox(height: 20),
+            OrderWallet(title: 'Kazançlarınız', type: 'income', order: 'DESC'),
           ],
         ),
       ),

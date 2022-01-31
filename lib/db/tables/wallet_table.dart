@@ -91,13 +91,14 @@ class WalletTable {
     return expenses.map((e) => WalletGroup(e['name'], e['total'])).toList();
   }
 
-  Future<List<Wallet>> orderWallet(num limit, String type) async {
+  Future<List<Wallet>> orderWallet(num limit, String type, String order) async {
     List<Wallet> wallets = [];
     final db = await DatabaseProvider.instance.database();
     final date = DateTime.now();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * from $walletTableName where month=? and year=? and type = '$type' ORDER BY amount DESC LIMIT $limit;",
-        [date.month, date.year]);
+        "SELECT * from $walletTableName where month=? and year=? and type = '$type' ORDER BY amount $order LIMIT $limit;",
+        [date.month - 1, date.year]);
+    print(maps);
     wallets = maps.map((wallet) => Wallet.fromJson(wallet)).toList();
     return wallets;
   }
