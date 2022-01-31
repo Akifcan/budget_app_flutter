@@ -1,6 +1,8 @@
 import 'package:budget/db/db_provider.dart';
+import 'package:budget/db/models/graphics/WalletSum.dart';
 import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/amout_table.dart';
+import 'package:flutter/material.dart';
 
 class WalletTable {
   WalletTable._privateConstructor();
@@ -58,5 +60,31 @@ class WalletTable {
     final db = await DatabaseProvider.instance.database();
     await db.rawQuery('DELETE FROM $walletTableName WHERE id = $walletId');
     return true;
+  }
+
+  Future<List<WalletSum>> sumOfExpensesAndEarns() async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> expenses = await db.rawQuery(
+        "SELECT SUM(amount) from $walletTableName where month=? and year=? and type = 'expense';",
+        [date.month, date.year]);
+    final List<Map<String, dynamic>> incomes = await db.rawQuery(
+        "SELECT SUM(amount) from $walletTableName where month=? and year=? and type = 'income';",
+        [date.month, date.year]);
+    return [
+      WalletSum('expense', Colors.red, expenses[0]['SUM(amount)']),
+      WalletSum('income', Colors.green, incomes[0]['SUM(amount)'])
+    ];
+  }
+
+  Future<List<Wallet>> orderWallet(num limit, String type) async {
+    List<Wallet> wallets = [];
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> maps = await db.rawQuery(
+        "SELECT * from $walletTableName where month=? and year=? and type = '$type' ORDER BY amount DESC LIMIT $limit;",
+        [date.month, date.year]);
+    wallets = maps.map((wallet) => Wallet.fromJson(wallet)).toList();
+    return wallets;
   }
 }
