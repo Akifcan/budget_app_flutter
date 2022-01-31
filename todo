@@ -15,7 +15,7 @@ edit wallet [ x ]
 delete wallet [ x ]
 active/deactive categories [ x ]
 
-graphics [  ]
-lists [  ]
+graphics [ x ]
+lists [ x ]
 empty state [  ]
 
