@@ -7,3 +7,9 @@ class WalletSum {
 
   WalletSum(this.label, this.color, this.value);
 }
+
+class WalletGroup {
+  final String label;
+  final num value;
+  WalletGroup(this.label, this.value);
+}

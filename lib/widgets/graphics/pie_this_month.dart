@@ -39,6 +39,7 @@ class PieThisMonth extends StatelessWidget {
               PieSeries<WalletSum, String>(
                   dataSource: snapshot.data,
                   pointColorMapper: (WalletSum data, _) => data.color,
+                  enableTooltip: true,
                   xValueMapper: (WalletSum data, _) => data.label,
                   yValueMapper: (WalletSum data, _) => data.value,
                   // Radius of pie

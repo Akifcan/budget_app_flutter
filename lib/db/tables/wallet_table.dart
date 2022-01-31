@@ -67,14 +67,28 @@ class WalletTable {
     final date = DateTime.now();
     final List<Map<String, dynamic>> expenses = await db.rawQuery(
         "SELECT SUM(amount) from $walletTableName where month=? and year=? and type = 'expense';",
-        [date.month, date.year]);
+        [date.month - 1, date.year]);
     final List<Map<String, dynamic>> incomes = await db.rawQuery(
         "SELECT SUM(amount) from $walletTableName where month=? and year=? and type = 'income';",
-        [date.month, date.year]);
+        [date.month - 1, date.year]);
     return [
       WalletSum('expense', Colors.red, expenses[0]['SUM(amount)']),
       WalletSum('income', Colors.green, incomes[0]['SUM(amount)'])
     ];
+  }
+
+  Future<List<WalletGroup>> groupExpenses() async {
+    final db = await DatabaseProvider.instance.database();
+    final date = DateTime.now();
+    final List<Map<String, dynamic>> expenses = await db.rawQuery('''
+          SELECT categories.name, SUM($walletTableName.amount) as total FROM $walletTableName 
+          INNER JOIN categories
+          ON categories.id = $walletTableName.categoryId 
+          WHERE $walletTableName.month=? AND $walletTableName.year=? AND type='expense'
+          GROUP BY categories.name
+          ORDER BY total desc
+        ''', [date.month - 1, date.year]);
+    return expenses.map((e) => WalletGroup(e['name'], e['total'])).toList();
   }
 
   Future<List<Wallet>> orderWallet(num limit, String type) async {

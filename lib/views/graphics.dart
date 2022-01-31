@@ -1,5 +1,6 @@
 import 'package:budget/db/models/graphics/WalletSum.dart';
 import 'package:budget/db/tables/wallet_table.dart';
+import 'package:budget/widgets/graphics/group_categories.dart';
 import 'package:budget/widgets/graphics/pie_this_month.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +13,6 @@ class Graphics extends StatefulWidget {
   State<Graphics> createState() => _GraphicsState();
 }
 
-class ChartData {
-  ChartData(this.x, this.y, this.color);
-  final String x;
-  final double y;
-  final Color color;
-}
-
 class _GraphicsState extends State<Graphics> {
   @override
   void initState() {
@@ -27,9 +21,7 @@ class _GraphicsState extends State<Graphics> {
 
   @override
   Widget build(BuildContext context) {
-    WalletTable.instance.sumOfExpensesAndEarns();
-    WalletTable.instance.orderWallet(1, 'expense');
-    WalletTable.instance.orderWallet(1, 'income');
+    WalletTable.instance.groupExpenses();
 
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +30,11 @@ class _GraphicsState extends State<Graphics> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8),
         child: Column(
-          children: [PieThisMonth()],
+          children: const [
+            PieThisMonth(),
+            SizedBox(height: 20),
+            GroupCategories()
+          ],
         ),
       ),
     );
