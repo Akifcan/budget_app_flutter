@@ -18,7 +18,7 @@ graphics [ x ]
 lists [ x ]
 
 add enums [ x ]
-show all records [  ]
+show all records [ x ]
 empty state [  ]
 create circle [  ]
 

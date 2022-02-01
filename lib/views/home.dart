@@ -24,8 +24,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   list() async {
     final db = await DatabaseProvider.instance.database();
+    // ignore: unused_local_variable
     final List<Map<String, dynamic>> categoryMaps =
         await db.rawQuery('select * from categories');
+    // ignore: unused_local_variable
     final List<Map<String, dynamic>> amountMaps =
         await db.rawQuery('select * from amountsPerMonth');
     AmountTable.instance.currentAmount();

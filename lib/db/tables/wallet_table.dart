@@ -1,6 +1,6 @@
 import 'package:budget/core/constants.dart';
 import 'package:budget/db/db_provider.dart';
-import 'package:budget/db/models/graphics/WalletSum.dart';
+import 'package:budget/db/models/graphics/wallet_sum.dart';
 import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/amout_table.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +88,7 @@ class WalletTable {
           WHERE $walletTableName.month=? AND $walletTableName.year=? AND type='expense'
           GROUP BY categories.name
           ORDER BY total desc
-        ''', [date.month - 1, date.year]);
+        ''', [date.month, date.year]);
     return expenses.map((e) => WalletGroup(e['name'], e['total'])).toList();
   }
 
@@ -99,8 +99,7 @@ class WalletTable {
     final date = DateTime.now();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
         "SELECT * from $walletTableName where month=? and year=? and type = '$type' ORDER BY amount ${order.orderToString} LIMIT $limit;",
-        [date.month - 1, date.year]);
-    print(maps);
+        [date.month, date.year]);
     wallets = maps.map((wallet) => Wallet.fromJson(wallet)).toList();
     return wallets;
   }
