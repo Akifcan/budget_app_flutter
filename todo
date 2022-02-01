@@ -19,7 +19,7 @@ lists [ x ]
 
 add enums [ x ]
 show all records [ x ]
-empty state [  ]
+empty state [ x ]
 create circle [  ]
 
 

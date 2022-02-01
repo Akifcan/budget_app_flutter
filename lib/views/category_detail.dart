@@ -6,6 +6,7 @@ import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/form/validations.dart';
 import 'package:budget/style.dart';
 import 'package:budget/widgets/alert.dart';
+import 'package:budget/widgets/blank_content.dart';
 import 'package:budget/widgets/budget_card.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
@@ -273,26 +274,29 @@ class _CategoryDetailState extends State<CategoryDetail> {
                   child: FutureBuilder<List<Wallet>>(
                     future: WalletTable.instance
                         .walletByCategory(widget.category.id),
-                    builder: (_, AsyncSnapshot snapshot) {
-                      return snapshot.hasData
-                          ? ListView.builder(
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (_, index) {
-                                Wallet wallet = snapshot.data[index];
-                                return ListTile(
-                                  onTap: () => editDialog(wallet),
-                                  title: Text(wallet.description),
-                                  subtitle: Text(wallet.type == 'expense'
-                                      ? 'Harcama Yaptınız'
-                                      : 'Kazandınız'),
-                                  trailing: Text("${wallet.amount}₺",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 20)),
-                                );
-                              },
-                            )
-                          : const Loader();
+                    builder: (_, AsyncSnapshot<List<Wallet>> snapshot) {
+                      if (snapshot.hasData) {
+                        return snapshot.data!.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (_, index) {
+                                  Wallet wallet = snapshot.data![index];
+                                  return ListTile(
+                                    onTap: () => editDialog(wallet),
+                                    title: Text(wallet.description),
+                                    subtitle: Text(wallet.type == 'expense'
+                                        ? 'Harcama Yaptınız'
+                                        : 'Kazandınız'),
+                                    trailing: Text("${wallet.amount}₺",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 20)),
+                                  );
+                                },
+                              )
+                            : const BlankContent();
+                      }
+                      return const Loader();
                     },
                   ),
                 )

@@ -4,6 +4,7 @@ import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/all_records.dart';
+import 'package:budget/widgets/blank_content.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,7 +48,7 @@ class OrderWallet extends StatelessWidget {
                                         fontWeight: FontWeight.w500)),
                               );
                             })
-                        : Center(child: Text("empty!")),
+                        : const BlankContent(),
                   ),
                   TextButton.icon(
                       onPressed: () => NavigationService.push(
