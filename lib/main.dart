@@ -3,7 +3,7 @@ import 'package:budget/db/db_provider.dart';
 import 'package:budget/db/provider/category_provider.dart';
 import 'package:budget/db/provider/header_provider.dart';
 import 'package:budget/style.dart';
-import 'package:budget/views/splash.dart';
+import 'package:budget/views/login.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +29,6 @@ class MyApp extends StatelessWidget {
         navigatorKey: NavigationService.navigatorKey,
         title: 'Flutter Demo',
         theme: theme,
-        home: const Splash());
+        home: const Login());
   }
 }
