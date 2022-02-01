@@ -33,19 +33,21 @@ class OrderWallet extends StatelessWidget {
                           style: Theme.of(context).textTheme.headline6)),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (_, index) {
-                          Wallet wallet = snapshot.data![index];
-                          return ListTile(
-                            title: Text(wallet.description),
-                            trailing: Text(wallet.amount.toString() + '₺',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w500)),
-                          );
-                        }),
+                    child: snapshot.data!.isNotEmpty
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (_, index) {
+                              Wallet wallet = snapshot.data![index];
+                              return ListTile(
+                                title: Text(wallet.description),
+                                trailing: Text(wallet.amount.toString() + '₺',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500)),
+                              );
+                            })
+                        : Center(child: Text("empty!")),
                   ),
                   TextButton.icon(
                       onPressed: () => NavigationService.push(
