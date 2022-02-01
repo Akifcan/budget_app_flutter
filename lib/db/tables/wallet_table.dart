@@ -1,3 +1,4 @@
+import 'package:budget/core/constants.dart';
 import 'package:budget/db/db_provider.dart';
 import 'package:budget/db/models/graphics/WalletSum.dart';
 import 'package:budget/db/models/wallet.dart';
@@ -91,12 +92,13 @@ class WalletTable {
     return expenses.map((e) => WalletGroup(e['name'], e['total'])).toList();
   }
 
-  Future<List<Wallet>> orderWallet(num limit, String type, String order) async {
+  Future<List<Wallet>> orderWallet(
+      num limit, String type, OrderBy order) async {
     List<Wallet> wallets = [];
     final db = await DatabaseProvider.instance.database();
     final date = DateTime.now();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * from $walletTableName where month=? and year=? and type = '$type' ORDER BY amount $order LIMIT $limit;",
+        "SELECT * from $walletTableName where month=? and year=? and type = '$type' ORDER BY amount ${order.orderToString} LIMIT $limit;",
         [date.month - 1, date.year]);
     print(maps);
     wallets = maps.map((wallet) => Wallet.fromJson(wallet)).toList();

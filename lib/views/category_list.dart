@@ -1,10 +1,10 @@
 import 'package:budget/db/models/category.dart';
 import 'package:budget/db/provider/category_provider.dart';
-import 'package:budget/db/tables/category_table.dart';
 import 'package:budget/widgets/icon_container.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
 class CategoryList extends StatefulWidget {

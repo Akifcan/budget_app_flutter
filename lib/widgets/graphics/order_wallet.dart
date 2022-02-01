@@ -1,3 +1,4 @@
+import 'package:budget/core/constants.dart';
 import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/style.dart';
@@ -8,7 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class OrderWallet extends StatelessWidget {
   final String title;
   final String type;
-  final String order;
+  final OrderBy order;
   const OrderWallet(
       {Key? key, required this.title, required this.type, required this.order})
       : super(key: key);

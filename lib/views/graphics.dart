@@ -1,11 +1,9 @@
-import 'package:budget/db/models/graphics/WalletSum.dart';
+import 'package:budget/core/constants.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/widgets/graphics/group_categories.dart';
 import 'package:budget/widgets/graphics/order_wallet.dart';
 import 'package:budget/widgets/graphics/pie_this_month.dart';
-import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class Graphics extends StatefulWidget {
   const Graphics({Key? key}) : super(key: key);
@@ -39,12 +37,15 @@ class _GraphicsState extends State<Graphics> {
             OrderWallet(
                 title: 'En Yüksek Harcamalarınız',
                 type: 'expense',
-                order: 'desc'),
+                order: OrderBy.desc),
             SizedBox(height: 20),
             OrderWallet(
-                title: 'En Az Harcamalarınız', type: 'expense', order: 'ASC'),
+                title: 'En Az Harcamalarınız',
+                type: 'expense',
+                order: OrderBy.asc),
             SizedBox(height: 20),
-            OrderWallet(title: 'Kazançlarınız', type: 'income', order: 'DESC'),
+            OrderWallet(
+                title: 'Kazançlarınız', type: 'income', order: OrderBy.desc),
           ],
         ),
       ),
