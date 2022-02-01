@@ -1,7 +1,9 @@
 import 'package:budget/core/constants.dart';
+import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/models/wallet.dart';
 import 'package:budget/db/tables/wallet_table.dart';
 import 'package:budget/style.dart';
+import 'package:budget/views/all_records.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,8 +18,11 @@ class OrderWallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Future<List<Wallet>> query =
+        WalletTable.instance.orderWallet(3, type, order);
+
     return FutureBuilder<List<Wallet>>(
-      future: WalletTable.instance.orderWallet(3, type, order),
+      future: query,
       builder: (BuildContext context, AsyncSnapshot<List<Wallet>> snapshot) {
         return snapshot.hasData
             ? Column(
@@ -43,7 +48,8 @@ class OrderWallet extends StatelessWidget {
                         }),
                   ),
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () => NavigationService.push(
+                          AllRecords(title: title, orderWallet: query)),
                       icon:
                           const Icon(FontAwesomeIcons.eye, color: primaryColor),
                       label: const Text("Tüm Kayıtlar",
