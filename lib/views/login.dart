@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:budget/style.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -16,6 +15,13 @@ class _LoginState extends State<Login> {
   double turn = 0.05;
 
   double wheelAspect = 300;
+  final localAuth = LocalAuthentication();
+
+  auth() async {
+    bool didAuthenticate = await localAuth.authenticate(
+        localizedReason: 'Please authenticate to show account balance');
+    print(didAuthenticate);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,14 +80,17 @@ class _LoginState extends State<Login> {
                       Positioned(
                           top: wheelAspect / 2 - 30,
                           left: 10,
-                          child: Transform.rotate(
-                              angle: -angle,
-                              child: Tooltip(
-                                message: 'Kredi Kartlarım',
-                                child: Image.asset(
-                                  'assets/icons/credit-card.png',
-                                ),
-                              ))),
+                          child: GestureDetector(
+                            onTap: auth,
+                            child: Transform.rotate(
+                                angle: -angle,
+                                child: Tooltip(
+                                  message: 'Kredi Kartlarım',
+                                  child: Image.asset(
+                                    'assets/icons/credit-card.png',
+                                  ),
+                                )),
+                          )),
                       Positioned(
                           bottom: wheelAspect / 10 - 10,
                           left: wheelAspect / 2 - 30,
