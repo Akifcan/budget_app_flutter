@@ -20,8 +20,8 @@ add enums [ x ]
 show all records [ x ]
 empty state [ x ]
 create circle [ x ]
-
 pick images [ x ]
 save image [ x ]
-show card images [ - ]
+show card images [ x ]
+share [ x ]
 
