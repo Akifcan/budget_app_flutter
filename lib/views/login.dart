@@ -1,4 +1,6 @@
+import 'package:budget/core/navigator_service.dart';
 import 'package:budget/style.dart';
+import 'package:budget/views/cards/my_cards.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
@@ -20,7 +22,9 @@ class _LoginState extends State<Login> {
   auth() async {
     bool didAuthenticate = await localAuth.authenticate(
         localizedReason: 'Please authenticate to show account balance');
-    print(didAuthenticate);
+    if (didAuthenticate) {
+      NavigationService.push(const MyCards());
+    }
   }
 
   @override

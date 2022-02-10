@@ -16,10 +16,12 @@ delete wallet [ x ]
 active/deactive categories [ x ]
 graphics [ x ]
 lists [ x ]
-
 add enums [ x ]
 show all records [ x ]
 empty state [ x ]
 create circle [ x ]
 
+pick images [  ]
+save image [  ]
+show card images [  ]
 

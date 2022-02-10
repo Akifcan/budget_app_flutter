@@ -40,6 +40,7 @@ dependencies:
   fluttertoast: ^8.0.8
   syncfusion_flutter_charts: ^19.4.48
   local_auth: ^1.1.10
+  image_picker: ^0.8.4+6
 
 dev_dependencies:
   # The "flutter_lints" package below contains a set of recommended lints to
