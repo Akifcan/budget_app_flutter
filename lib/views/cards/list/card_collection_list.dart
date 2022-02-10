@@ -1,5 +1,7 @@
+import 'package:budget/core/navigator_service.dart';
 import 'package:budget/db/models/collection_card.dart';
 import 'package:budget/db/tables/credit_card_table.dart';
+import 'package:budget/views/cards/list/card_images.dart';
 import 'package:budget/widgets/loader.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +28,8 @@ class CardCollectionList extends StatelessWidget {
               itemBuilder: (_, index) {
                 CollectionCard collectionCard = snapshot.data![index];
                 return ListTile(
+                  onTap: () => NavigationService.push(
+                      CardImages(collectionCard: collectionCard)),
                   title: Text(collectionCard.name),
                   subtitle: Text("${index + 1}"),
                 );

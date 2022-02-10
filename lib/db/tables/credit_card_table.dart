@@ -1,4 +1,5 @@
 import 'package:budget/db/db_provider.dart';
+import 'package:budget/db/models/card_images_model.dart';
 import 'package:budget/db/models/collection_card.dart';
 import 'package:budget/views/cards/add/with-camera/add_with_camera.dart';
 
@@ -36,11 +37,12 @@ class CreditCardTable {
         .toList();
   }
 
-  cardImagesByCollectionId(num collectionId) async {
+  Future<List<CreditCardImages>> cardImagesByCollectionId(
+      num collectionId) async {
     final db = await DatabaseProvider.instance.database();
     final List<Map<String, dynamic>> maps = await db.rawQuery(
         'SELECT * FROM $imagesTableName where collection_id = ?',
         [collectionId]);
-    print(maps);
+    return maps.map((json) => CreditCardImages.fromJson(json)).toList();
   }
 }
