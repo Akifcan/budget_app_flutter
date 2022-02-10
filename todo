@@ -21,7 +21,7 @@ show all records [ x ]
 empty state [ x ]
 create circle [ x ]
 
-pick images [  ]
-save image [  ]
-show card images [  ]
+pick images [ x ]
+save image [ x ]
+show card images [ - ]
 

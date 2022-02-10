@@ -9,10 +9,14 @@ class DatabaseProvider {
 
   database() async {
     return openDatabase(
-      join(await getDatabasesPath(), 'budget19.db'),
+      join(await getDatabasesPath(), 'budget20.db'),
       onCreate: (db, version) async {
         await db.execute(
             "CREATE TABLE categories(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, icon TEXT default 'default.png', active INTEGER, amount INTEGER default 0);");
+        await db.execute(
+            "CREATE TABLE credit_card_image_collection(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);");
+        await db.execute(
+            "CREATE TABLE credit_card_images(id INTEGER PRIMARY KEY AUTOINCREMENT, path TEXT NOT NULL, name TEXT NOT NULL, collection_id INTEGER NOT NULL, FOREIGN KEY(collection_id) REFERENCES credit_card_image_collection(id));");
         await db.execute(
             'CREATE TABLE amountsPerMonth (id INTEGER PRIMARY KEY AUTOINCREMENT, month INTEGER NOT NULL, day INTEGER NOT NULL, year INTEGER NOT NULL, amount INTEGER NOT NULL, current INTEGER NOT NULL);');
         await db.execute(
@@ -30,7 +34,7 @@ class DatabaseProvider {
         // ignore: avoid_print
         print("ok!");
       },
-      version: 1,
+      version: 2,
     );
   }
 }

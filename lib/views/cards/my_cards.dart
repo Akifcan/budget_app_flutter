@@ -1,6 +1,8 @@
 import 'package:budget/core/navigator_service.dart';
 import 'package:budget/style.dart';
 import 'package:budget/views/cards/add/with-camera/add_with_camera.dart';
+import 'package:budget/views/cards/list/card_images_list.dart';
+import 'package:budget/widgets/icon_container.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -44,6 +46,26 @@ class MyCards extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Kredi Kartlarım"),
+      ),
+      body: Column(
+        children: [
+          ListTile(
+            onTap: () => NavigationService.push(const CardImagesList()),
+            leading: const IconContainer(
+              iconName: 'credit-card',
+            ),
+            title: const Text("Kart Resimlerim"),
+            subtitle: const Text("Kayıt Ettiğiniz Kart Resimleri"),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const IconContainer(
+              iconName: 'credit-card',
+            ),
+            title: const Text("Kart Kayıtlarım"),
+            subtitle: const Text("Tüm Kayıt Bilgilerim"),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Yeni Kart Ekleyin',
